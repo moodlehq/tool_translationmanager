@@ -89,7 +89,7 @@ class translationtable extends \table_sql {
             $params['url'] = $this->pagefilter;
             $where[] = 'url = :url';
         }
-        $wherep[] = 'hidefromtable = 1';
+        $wherep[] = 'hidefromtable != 1';
         $wherestr = implode(" AND ", $where);
         $records = $DB->get_records_select('filter_fulltranslate', $wherestr, $params, 'timemodified ASC', '*', $this->get_page_start(), $this->get_page_size());
         $total = $DB->count_records_select('filter_fulltranslate', $wherestr, $params);
