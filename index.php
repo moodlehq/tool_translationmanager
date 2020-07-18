@@ -23,7 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 use tool_translationmanager;
+use tool_translationmanager\form\search_form;
 require('../../../config.php');
+require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->libdir.'/adminlib.php');
 
 $page = optional_param('page', 0, PARAM_INT);
@@ -50,8 +52,16 @@ echo '<div class="d-flex flex-row-reverse p-4"><h4>';
 echo "<a href='".$CFG->wwwroot."/admin/tool/translationmanager/pages.php'>".get_string('backtolistofpages', 'tool_translationmanager')."</a>";
 echo $OUTPUT->render($actionmenu);
 echo '</h4></div>';
-$translationtable = new tool_translationmanager\translationtable($lang, $pagefilter);
+$search = '';
+$mform = new search_form();
+
+if ($fromform = $mform->get_data()) {
+    //print_object($fromform);
+    $search = $fromform->search;
+}
+$mform->display();
+$translationtable = new tool_translationmanager\translationtable($lang, $pagefilter, $search);
 $translationtable->pagesize = 5;
-$translationtable->define_baseurl(new moodle_url('//admin/tool/translationmanager/index.php'));
+$translationtable->define_baseurl(new moodle_url('//admin/tool/translationmanager/index.php', ['page' => $page, 'searchlang' => $lang, 'pagefilter' => $page]));
 $translationtable->out(5, false);
 echo $OUTPUT->footer();
