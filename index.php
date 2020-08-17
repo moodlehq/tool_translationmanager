@@ -51,7 +51,7 @@ echo "<a href='".$CFG->wwwroot."/admin/tool/translationmanager/pages.php'>".get_
 echo $OUTPUT->render($actionmenu);
 echo '</h4></div>';
 $translationtable = new tool_translationmanager\translationtable($lang, $pagefilter);
-$translationtable->pagesize = 5;
+$translationtable->pagesize = 50;
 $translationtable->define_baseurl(new moodle_url('//admin/tool/translationmanager/index.php'));
-$translationtable->out(5, false);
+$translationtable->out(50, false);
 echo $OUTPUT->footer();
