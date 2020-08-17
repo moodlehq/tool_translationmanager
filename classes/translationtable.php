@@ -50,7 +50,7 @@ class translationtable extends \table_sql {
 
     protected $pagefilter;
 
-    public function __construct($lang = '', $pagefilter = '') {
+    public function __construct($lang = '', $pagefilter = '', $search = '') {
         parent::__construct('translations-table');
         // Define the list of columns to show.
         $columns = ['sourcetext', 'translation', 'timecreated', 'timemodified', 'lang', 'edit'];
@@ -63,6 +63,7 @@ class translationtable extends \table_sql {
         $this->use_pages = true;
         $this->lang = $lang;
         $this->pagefilter = $pagefilter;
+        $this->search = $search;
     }
 
     public function col_edit($data) {
@@ -88,6 +89,10 @@ class translationtable extends \table_sql {
         if ($this->pagefilter != '') {
             $params['url'] = $this->pagefilter;
             $where[] = 'url = :url';
+        }
+        if ($this->search != '') {
+            $where[] = $DB->sql_like('sourcetext', ':search', false);
+            $params['search'] = "%".$DB->sql_like_escape($this->search)."%";
         }
         $wherep[] = 'hidefromtable != 1';
         $wherestr = implode(" AND ", $where);
