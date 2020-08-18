@@ -5,8 +5,11 @@ use tool_translationmanager\form\translation_form;
 require('../../../config.php');
 require_once($CFG->libdir . '/formslib.php');
 require_once($CFG->libdir.'/adminlib.php');
-
-admin_externalpage_setup('tooltranslationmanager');
+require_login();
+require_capability('filter/fulltranslate:edittranslations', context_system::instance());
+$url = new moodle_url('/admin/tool/edit.php');
+$PAGE->set_url($url);
+$PAGE->set_title('Full translate filter');
 $id = required_param('id', PARAM_INT);
 $pagefilter = optional_param('pagefilter', '', PARAM_TEXT);
 $lang = optional_param('searchlang', '', PARAM_ALPHA);

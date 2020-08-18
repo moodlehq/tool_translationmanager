@@ -25,8 +25,11 @@
 use tool_translationmanager;
 require('../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-
-admin_externalpage_setup('tooltranslationmanager');
+require_login();
+require_capability('filter/fulltranslate:edittranslations', context_system::instance());
+$url = new moodle_url('/admin/tool/edit.php');
+$PAGE->set_url($url);
+$PAGE->set_title('Full translate filter');
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_translationmanager'));
