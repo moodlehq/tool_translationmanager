@@ -39,7 +39,8 @@ echo $OUTPUT->heading(get_string('pluginname', 'tool_translationmanager'));
 
 $mform = new updatecontent_form();
 if ($fromformdata = $mform->get_data()) {
-    if (isset($fromformdata->oldtext['text']) && isset($fromformdata->newtext['text'])) {
+   // die(print_object($fromformdata));
+    if (!empty($fromformdata->oldtext['text']) && !empty($fromformdata->newtext['text'])) {
         $oldhashkey = sha1(trim($fromformdata->oldtext['text']));
         $newhashkey = sha1(trim($fromformdata->newtext['text']));
 
@@ -48,7 +49,9 @@ if ($fromformdata = $mform->get_data()) {
         $newhashkey = sha1(trim($fromformdata->newtextplain));
     }
 
+    $DB->set_debug(true);
     $DB->set_field('filter_fulltranslate', 'hashkey', $newhashkey, ['hashkey' => $oldhashkey]);
+    $DB->set_debug(false);
     echo "updated";
 
 } else {
