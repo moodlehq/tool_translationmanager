@@ -14,6 +14,8 @@ class translation_form extends moodleform {
         $mform->setType('id', PARAM_INT);
         $mform->addElement('html', '<div class="row"><div class="col-6">');
         $mform->addElement('static', 'sourcetext', get_string('sourcetext', 'tool_translationmanager'));
+        $mform->addElement('static', 'hashkey', 'Hash');
+
         $mform->addElement('html', '</div><div class="col-6">');
         if ($this->_customdata['textformat'] == 'plain') {
             $mform->addElement('textarea', 'translation', '', 'wrap="virtual" rows="20" cols="50"');
