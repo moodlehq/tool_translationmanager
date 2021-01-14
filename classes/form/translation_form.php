@@ -20,7 +20,12 @@ class translation_form extends moodleform {
         if ($this->_customdata['textformat'] == 'plain') {
             $mform->addElement('textarea', 'translation', '', 'wrap="virtual" rows="20" cols="50"');
         } else {
-            $mform->addElement('editor', 'translation');
+            $options = [];
+            if (isset($this->_customdata['length'])) {
+                $rows = round(($this->_customdata['length'] / 42));
+                $options['rows'] = $rows;
+            }
+            $mform->addElement('editor', 'translation', null, $options);
         }
         $mform->addElement('hidden', 'lang');
         $mform->setType('lang', PARAM_ALPHA);

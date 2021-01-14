@@ -18,6 +18,7 @@ $mform = new translation_form(null, ['lang' => $lang, 'pagefilter' => $pagefilte
 if ($record->textformat == 'html') {
     $record->translation = ['text' => $record->translation];
 }
+$record->length = strlen($record->sourcetext);
 $record->searchlang = $lang;
 $record->pagefilter = urlencode($pagefilter);
 $mform->set_data($record);
