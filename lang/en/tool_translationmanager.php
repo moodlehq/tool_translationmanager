@@ -25,7 +25,7 @@
 
 $string['backtolistofpages'] = 'Back to list of pages';
 $string['listofpages'] = 'List of pages';
-$string['pluginname'] = 'Translations manager';
+$string['pluginname'] = 'Content translation manager';
 $string['sourcetext'] = 'Source text';
 $string['viewallstrings'] = 'View all strings';
 $string['updatecontent'] = 'Update content';
