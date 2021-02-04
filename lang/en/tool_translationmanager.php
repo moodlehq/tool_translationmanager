@@ -15,11 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Lang import
+ * Strings provided by the plugin.
  *
- * @package    tool
- * @subpackage langimport
- * @copyright  2011 Petr Skoda
+ * @package    tool_translationmanager
+ * @copyright  2020 Farhan Karmali <farhan6318@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
