@@ -28,7 +28,7 @@ class tool_translationmanager_external extends external_api {
         );
     }
     public static function update_data($jsonformdata) {
-        global $DB;
+        global $DB, $CFG;
         $data = [];
         parse_str($jsonformdata, $data);
         $record = $DB->get_record('filter_fulltranslate', ['id' => $data['id']]);
@@ -37,7 +37,18 @@ class tool_translationmanager_external extends external_api {
         } else {
             $record->translation = $data['translation']['text'];
         }
-        $record->automatic = 0;
+
+        if ($data['button'] == 'id_reset') {
+            require_once("$CFG->dirroot/filter/fulltranslate/filter.php");
+            $filter = new \filter_fulltranslate(context_system::instance(), []);
+            $record->translation = $filter->generate_translation(
+                    $record->sourcetext, $record->lang
+            );
+            $record->automatic = 1;
+        } else {
+            $record->automatic = 0;
+        }
+
         $record->timemodified = time();
         return ['success' => $DB->update_record('filter_fulltranslate', $record)];
     }

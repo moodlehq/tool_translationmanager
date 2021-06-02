@@ -26,7 +26,12 @@
 defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
-    $ADMIN->add('language', new admin_externalpage('tooltranslationmanager', get_string('pluginname', 'tool_translationmanager'), "$CFG->wwwroot/$CFG->admin/tool/translationmanager/index.php"));
-    $ADMIN->add('language', new admin_externalpage('updatecontent', get_string('updatecontent', 'tool_translationmanager'), "$CFG->wwwroot/$CFG->admin/tool/translationmanager/updatecontent.php"));
+    $ADMIN->add('language',
+            new admin_externalpage(
+                    'tooltranslationpages',
+                    get_string('pluginname', 'tool_translationmanager'),
+                    new moodle_url("/admin/tool/translationmanager/pages.php"),
+                    'filter/fulltranslate:edittranslations'
+            ));
 }
 

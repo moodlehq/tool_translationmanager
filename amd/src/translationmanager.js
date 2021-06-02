@@ -20,9 +20,10 @@ define(["jquery", "core/config", "core/modal_factory", "core/modal_events",  "co
                             modal.destroy();
                         });
                         modal.show();
-                        modal.getRoot().on('submit', 'form', function(e) {
+                        modal.getRoot().on('click', '#id_submitbutton, #id_reset', function(e) {
                             e.preventDefault();
                             var data = $('.mform').serialize();
+                            data = data + '&button=' + e.target.id;
                             var promise = Ajax.call([{
                                 methodname: 'tool_translationmanager_update_data',
                                 args: {jsonformdata: data}
@@ -33,6 +34,10 @@ define(["jquery", "core/config", "core/modal_factory", "core/modal_events",  "co
                                     window.location.reload(true);
                             }
                             );
+                        });
+                        modal.getRoot().on('click', '#id_cancel', function (e) {
+                            e.preventDefault();
+                            modal.destroy();
                         });
                     });
                 });
