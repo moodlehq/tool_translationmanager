@@ -22,23 +22,21 @@
  * @copyright  2020 Farhan Karmali <farhan6318@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-use tool_translationmanager;
 require('../../../config.php');
 require_once($CFG->libdir.'/adminlib.php');
-require_login();
-require_capability('filter/fulltranslate:edittranslations', context_system::instance());
-$url = new moodle_url('/admin/tool/edit.php');
-$PAGE->set_url($url);
-$PAGE->set_title('Full translate filter');
+
+admin_externalpage_setup('tooltranslationpages');
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('pluginname', 'tool_translationmanager'));
 
-echo "<h3><a href='".$CFG->wwwroot."/admin/tool/translationmanager/index.php'>".get_string('viewallstrings', 'tool_translationmanager')."</a></h3>";
+echo "<h3>";
+echo html_writer::link(new moodle_url("/admin/tool/translationmanager/index.php"), get_string('viewallstrings', 'tool_translationmanager'));
+echo "</h3>";
 
-$records = $DB->get_fieldset_sql("SELECT DISTINCT url FROM {filter_fulltranslate} ORDER BY url");
+$records = $DB->get_fieldset_sql("SELECT url FROM {filter_fulltranslate} GROUP BY url ORDER BY url");
 echo "<h3>".get_string('listofpages', 'tool_translationmanager')."</h3>";
 foreach ($records as $record) {
-    echo "<a href='".$CFG->wwwroot."/admin/tool/translationmanager/index.php?pagefilter=".urlencode($record)."'>".$record."</a><br/>";
+    echo html_writer::link(new moodle_url("/admin/tool/translationmanager/index.php", ['pagefilter' => $record]), $record);
+    echo "<br/>";
 }
 echo $OUTPUT->footer();

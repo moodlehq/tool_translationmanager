@@ -22,7 +22,6 @@
  * @copyright  2020 Farhan Karmali <farhan6318@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-use tool_translationmanager;
 use tool_translationmanager\form\search_form;
 require('../../../config.php');
 require_once($CFG->libdir . '/formslib.php');
@@ -32,15 +31,14 @@ $page = optional_param('page', 0, PARAM_INT);
 $lang = optional_param('searchlang', '', PARAM_ALPHA);
 $pagefilter = optional_param('pagefilter', '', PARAM_TEXT);
 $pagefilter = urldecode($pagefilter);
-require_login();
-require_capability('filter/fulltranslate:edittranslations', context_system::instance());
-$url = new moodle_url('/admin/tool/edit.php');
+
+admin_externalpage_setup('tooltranslationpages');
+$url = new moodle_url('/admin/tool/translationmanager/index.php');
 $PAGE->set_url($url);
-$PAGE->set_title('Full translate filter');
+
+$PAGE->requires->js_call_amd('tool_translationmanager/translationmanager', 'init');
 
 echo $OUTPUT->header();
-echo $OUTPUT->heading(get_string('pluginname', 'tool_translationmanager'));
-$PAGE->requires->js_call_amd('tool_translationmanager/translationmanager', 'init');
 $languages = get_string_manager()->get_list_of_translations();
 $languagelinks = [];
 foreach ($languages as $key => $value) {
@@ -53,7 +51,7 @@ $actionmenu->set_menu_trigger(get_string('language'));
 $actionmenu->set_action_label(get_string('language'));
 $actionmenu->set_alignment(\action_menu::TR, \action_menu::TR);
 echo '<div class="d-flex flex-row-reverse p-4"><h4>';
-echo "<a href='".$CFG->wwwroot."/admin/tool/translationmanager/pages.php'>".get_string('backtolistofpages', 'tool_translationmanager')."</a>";
+echo html_writer::link(new moodle_url("/admin/tool/translationmanager/pages.php"), get_string('backtolistofpages', 'tool_translationmanager'));
 echo $OUTPUT->render($actionmenu);
 echo '</h4></div>';
 
@@ -61,12 +59,11 @@ $search = '';
 $mform = new search_form();
 
 if ($fromform = $mform->get_data()) {
-    //print_object($fromform);
     $search = $fromform->search;
 }
 $mform->display();
 $translationtable = new tool_translationmanager\translationtable($lang, $pagefilter, $search);
 $translationtable->pagesize = 50;
-$translationtable->define_baseurl(new moodle_url('//admin/tool/translationmanager/index.php', ['page' => $page, 'searchlang' => $lang, 'pagefilter' => $page]));
+$translationtable->define_baseurl(new moodle_url('/admin/tool/translationmanager/index.php', ['page' => $page, 'searchlang' => $lang, 'pagefilter' => $page]));
 $translationtable->out(50, false);
 echo $OUTPUT->footer();
