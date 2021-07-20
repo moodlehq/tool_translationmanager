@@ -13,19 +13,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Strings provided by the plugin.
+ * Provider class.
  *
  * @package    tool_translationmanager
- * @copyright  2020 Farhan Karmali <farhan6318@gmail.com>
+ * @author     Xuan Gui <xuan.gui@catalyst-au.edu>
+ * @copyright  2020 Catalyst IT
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace tool_translationmanager\privacy;
 
-$string['backtolistofpages'] = 'Back to list of pages';
-$string['listofpages'] = 'List of pages';
-$string['pluginname'] = 'Content translation manager';
-$string['sourcetext'] = 'Source text';
-$string['viewallstrings'] = 'View all strings';
-$string['updatecontent'] = 'Update content';
-$string['privacy:metadata'] = 'The tool translationmanager plugin does not store any personal data.';
+defined('MOODLE_INTERNAL') || die();
+
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+}
